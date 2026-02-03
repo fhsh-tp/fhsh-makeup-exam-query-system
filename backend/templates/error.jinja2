@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>錯誤 {{ status_code }} - 學分補考查詢系統</title>
+    <style>
+        :root {
+            --primary: #00A99D;
+            --accent: #FF6F61;
+            --background: #F7F9FB;
+            --text: #2C3E50;
+            --white: #ffffff;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #FF6F61;
+                --accent: #00A99D;
+                --background: #1A2A3A;
+                --text: #E0E0E0;
+                --white: #2C3E50;
+            }
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .error-container {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            text-align: center;
+        }
+        .error-code {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        .error-message {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+        .back-link {
+            display: inline-block;
+            padding: 0.875rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+        }
+        .back-link:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-code">{{ status_code }}</div>
+        <p class="error-message">{{ detail }}</p>
+        <a href="/" class="back-link">返回首頁</a>
+    </div>
+</body>
+</html>

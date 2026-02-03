@@ -1,0 +1,55 @@
+# 臺北市立復興高級中學 學分補考查詢系統
+# Docker Compose 配置
+
+name: makeup-exam-system
+
+services:
+  # PostgreSQL 資料庫
+  db:
+    image: postgres:15-alpine
+    container_name: makeup_exam_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: makeup_exam
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # FastAPI 後端
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: makeup_exam_backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/makeup_exam
+      ADMIN_SECRET_TOKEN: ${ADMIN_SECRET_TOKEN:-}
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+
+  # React 前端 (含 Nginx)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: makeup_exam_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+
+volumes:
+  postgres_data:
