@@ -137,3 +137,263 @@ npm run dev
 - 主色調: #00A99D (活潑藍綠)
 - 強調色: #FF6F61 (珊瑚橘紅)
 - 支援深色模式自動切換
+
+## LLM Exposure
+
+### AI Skill
+
+#### Clean Code
+
+```md
+---
+name: clean-code
+description: Comprehensive code quality analysis and improvement guidance based on Clean Code principles. Use this skill when users request code review, refactoring suggestions, code quality assessment, or ask to improve code readability and maintainability. Triggers include requests like "review this code", "make this cleaner", "refactor this", "is this good code", "improve code quality", or when analyzing code structure, naming conventions, and design patterns.
+---
+
+# Clean Code
+
+This skill provides systematic guidance for writing and reviewing clean, maintainable code based on industry best practices and Clean Code principles.
+
+## Core Philosophy
+
+> Anyone can write code that a computer can understand, but few programmers know how to write code that a human can understand.
+> -- Martin Fowler
+
+**Key principles:**
+- True cost of software = its maintenance
+- We READ 10x more than we WRITE - optimize for readability
+- Boy Scout Rule: Always check in cleaner code than you found
+- The day you stop refactoring is the day it becomes legacy
+
+## Code Review Checklist
+
+When reviewing code, evaluate these aspects in order:
+
+### 1. Naming Conventions
+
+**Variables and Functions:**
+- Avoid abbreviations unless universally recognized (URL, VAT, API)
+- Use meaningful, self-explanatory names
+- Functions are verbs: `searchProduct()`, `sendTransaction()`, not `product()` or `transaction()`
+- Booleans answer yes/no: `isGoldClient()`, `areHostsValid()`
+- Classes are nouns: `Customer`, `OrderDetails`, `OrderFacade`
+- Avoid meaningless suffixes: prefer `Order` over `OrderInfo` or `OrderData`
+
+**Consistency:**
+- Stick to one convention: `find()`, `fetch()`, or `get()` - not a mix
+- Use consistent terminology: don't alternate between `buyer`, `client`, `customer` for the same entity
+- Variable names within functions should be consistent: `removeBtn` and `addBtn`, not `removeBtn` and `addButton`
+
+**Continuous Renaming:**
+- Rename as you learn the domain
+- No perfect names exist - iterate
+- Use IDE refactoring tools
+
+### 2. Function Design
+
+**Size and Responsibility:**
+- Functions should be small: 5-10 lines ideally, never more than screen height
+- Single Responsibility Principle (SRP): do ONE thing, do it well, do it ONLY
+- Break down functions that take too long to understand
+
+**Parameters:**
+- Limit function arguments (ideally ≤3)
+- Use destructuring or object parameters for multiple arguments
+- Provide default values for optional parameters
+
+**Return Values:**
+- Avoid returning null - use Optional types or throw exceptions
+- Use early returns to reduce nesting
+- Return expected values last, do validation checks first
+
+**Side Effects:**
+- Function name should describe ALL its effects
+- Avoid unintended consequences
+- Don't add hidden functionality not reflected in the name
+
+### 3. Code Structure
+
+**Formatting:**
+- Line length: maximum 120 characters
+- Function length: 5-10 lines, less than one screen
+- Class length: 100-200 lines, never exceed 500
+
+**Indentation and Nesting:**
+- More indentation = less readability
+- Prefer early returns over nested conditionals
+- Check negatives first and return early
+- Multiple `if` statements are better than nested ones
+
+**Variable Declaration:**
+- Declare variables close to their usage
+- Avoid declaring all variables at the top
+
+**Function Organization:**
+- Function callers and callees should be close
+- Related functions should be grouped
+
+### 4. Comments
+
+**When NOT to Comment:**
+- Comments often indicate failure to write clear code
+- Self-explanatory code is better than commented code
+- Comments inevitably fall out of sync
+
+**When to Comment:**
+- Specific algorithms requiring explanation
+- Bug workarounds (with reference to bug tracker)
+- Warning of consequences
+- Explaining calls to strange APIs
+- TODO markers (with context)
+- Public API documentation for libraries/frameworks
+
+**Comment Quality:**
+- Only comment business logic complexity
+- Code describes HOW, comments explain WHY
+- Clarify regex or complex expressions with examples
+- Never leave commented-out code (use version control)
+- No journal comments (use `git log`)
+- No positional markers or decorative headers
+
+### 5. Code Smells to Detect
+
+**Duplication:**
+- DRY principle (Don't Repeat Yourself)
+- Extract repeated logic into functions, methods, or services
+- Repeating code is a primary code smell
+
+**Complexity:**
+- Long functions or methods
+- Large classes with too many responsibilities
+- Switch statements that could be polymorphism
+- Combinatorial explosions (many methods doing similar things)
+
+**Design Issues:**
+- Lazy classes (too little responsibility - merge into others)
+- Feature envy (method using another class more than its own)
+- Solution sprawl (solution scattered across multiple classes)
+- Alternative classes with different interfaces
+- Oddball solutions (inconsistent problem-solving approaches)
+
+### 6. Testing
+
+**Test Requirements:**
+- Always test manually first
+- Write automated tests: E2E or unit tests based on requirements
+- Minimum automated test coverage for critical paths
+
+**Testing Philosophy:**
+- You're not done when code works - refactor and clean up
+- Continuous refactoring approach
+- Build design skills through reflection
+
+### 7. Error Handling
+
+**Best Practices:**
+- Fail fast: errors should surface quickly
+- Use global exception handlers
+- Minimize `catch` blocks in business logic
+- Throw meaningful exceptions with context
+
+### 8. Language-Specific Patterns
+
+**JavaScript/TypeScript:**
+- Use destructuring for cleaner code
+- Employ optional chaining: `person?.address?.street`
+- Prefer `async/await` over callbacks (or vice versa - but be consistent)
+- Use default parameters
+- Destructure function parameters for clarity
+
+**General Patterns:**
+- Use language idioms and conventions
+- Follow framework/library style guides
+- Configure linters and formatters
+- Automate style enforcement
+
+## SOLID Principles
+
+When evaluating design patterns, reference SOLID:
+
+- **S**: Single Responsibility Principle - One reason to change
+- **O**: Open/Closed Principle - Open for extension, closed for modification
+- **L**: Liskov Substitution Principle - Derived classes must be substitutable
+- **I**: Interface Segregation Principle - Don't force unused method dependencies
+- **D**: Dependency Inversion Principle - Depend on abstractions, not concretions
+
+## Code Review Process
+
+**When Reviewing:**
+1. Understand the context and constraints
+2. Focus on what humans should review (not what can be automated)
+3. Provide constructive, specific feedback
+4. Be nice - the goal is to ship code, not prove cleverness
+5. Respond in a timely fashion
+
+**Submitting for Review:**
+- Keep changes small and focused
+- Annotate your thinking process in commit messages
+- Include screenshots/GIFs for UI changes
+- One issue per pull request
+
+**Anti-Patterns to Avoid:**
+- Nitpicking whitespace (automate it)
+- Design changes at final review stage
+- Inconsistent feedback
+- Ghosting large PRs after nitpicking small ones
+- Endless ping-pong reviews
+
+## Refactoring Guidelines
+
+**When to Refactor:**
+- As soon as code starts working
+- When changing any part of codebase (Boy Scout Rule)
+- When names no longer reflect current understanding
+- When functions become too complex
+
+**How to Refactor:**
+- Use IDE shortcuts for fast restructuring
+- Refactor in small, safe steps
+- Keep tests green
+- Commit frequently
+- Remove zombie code (dead/commented code)
+
+## Output Format
+
+When reviewing code, provide:
+
+1. **Overall Assessment**: Brief summary of code quality
+2. **Critical Issues**: Must-fix problems affecting correctness or security
+3. **High-Priority Improvements**: Significant maintainability or readability issues
+4. **Suggestions**: Nice-to-have improvements
+5. **Positive Observations**: What's done well
+
+For each issue, provide:
+- Location (file, line, or function name)
+- Explanation of the problem
+- Specific refactoring suggestion with code example
+- Rationale (why this improves the code)
+
+**Important:** Balance thoroughness with pragmatism. Not every issue needs fixing immediately. Prioritize based on impact and effort.
+
+## Performance Note
+
+> Premature optimization is the root of all evil.
+> -- Donald Knuth
+
+- Write clean code first, optimize only when necessary
+- Smaller methods often run faster due to JIT compiler optimizations
+- Measure before optimizing
+- Readability usually trumps micro-optimizations
+
+## Remember
+
+- Clean code is about empathy for future maintainers (including yourself)
+- Code is read far more often than written
+- Perfect is the enemy of good - iterate toward better code
+- Automate what can be automated (formatting, style checks)
+- Focus human review on logic, design, and clarity
+
+```
+
+
+### LLM Exposure : `https://docs.google.com/document/d/1IKRIbrFQyxFAaFBiGm6GzmOVSJw6juq8UHtxVQjOmBw/edit?usp=sharing`
