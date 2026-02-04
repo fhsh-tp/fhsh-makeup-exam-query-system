@@ -1,5 +1,5 @@
 [project]
-name = "makeup-exam-backend"
+name = "makeup-exam-query"
 version = "1.0.0"
 description = "臺北市立復興高級中學 學分補考查詢系統後端"
 requires-python = ">=3.12"
