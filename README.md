@@ -217,7 +217,7 @@ npm run dev
 
 ## 授權
 
-本專案為臺北市立復興高級中學內部使用。
+[ECL2.0](./LICENSE)
 
 ## LLM Exposure
 
