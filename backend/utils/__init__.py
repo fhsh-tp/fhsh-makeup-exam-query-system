@@ -7,5 +7,6 @@ Utils Package - 工具函式模組
 """
 from .async_utils import to_async
 from .webpage import WebPage, register_error_handlers
+from .upload_authenticate import set_admin_secret_token, verify_admin_token
 
-__all__ = ["to_async", "WebPage", "register_error_handlers"]
+__all__ = ["to_async", "WebPage", "register_error_handlers", "set_admin_secret_token", "verify_admin_token"]

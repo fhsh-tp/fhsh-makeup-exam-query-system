@@ -11,7 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from backend.database import create_db_and_tables
 from backend.routers import admin, api
-from backend.utils import WebPage, register_error_handlers
+from backend.utils import WebPage, register_error_handlers, set_admin_secret_token
 
 # 初始化 WebPage 用於錯誤頁面渲染
 TEMPLATE_DIR = Path(__file__).parent / "templates"
@@ -25,6 +25,7 @@ async def lifespan(app: FastAPI):
     
     啟動時建立資料庫表格。
     """
+    set_admin_secret_token()
     create_db_and_tables()
     yield
 
